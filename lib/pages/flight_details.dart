@@ -22,13 +22,13 @@ class _FlightDetailsState extends State<FlightDetails> {
     "Airbus A320",
     "Boeing 767",
     "Airbus A330",
-    "Aerospace 146-100",
+    "Aerospace 146",
     "Fokker 100",
     "Embraer 190",
     "Airbus A310",
     "Freighter 737",
     "Rockwell 690B",
-    "Avroliner RJ-100"
+    "Avroliner 100"
   ];
 
   @override
