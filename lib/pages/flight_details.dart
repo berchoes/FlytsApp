@@ -7,8 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class FlightDetails extends StatefulWidget {
   final FlightModel flight;
+  final int index;
 
-  FlightDetails({@required this.flight});
+  FlightDetails({@required this.flight, @required this.index});
 
   @override
   _FlightDetailsState createState() => _FlightDetailsState();
@@ -272,7 +273,7 @@ class _FlightDetailsState extends State<FlightDetails> {
                             fontSize: 20, color: Colors.white),
                       ),
                       Text(
-                        aircraftList[rnd.nextInt(aircraftList.length)],
+                        aircraftList[widget.index % aircraftList.length],
                         style: GoogleFonts.overpass(
                             fontSize: 20, color: Colors.yellowAccent),
                       ),

@@ -32,14 +32,13 @@ class _FlightStreamState extends State<FlightStream> {
     super.initState();
   }
 
-  _goDetails(BuildContext context, FlightModel flight) {
+  _goDetails(BuildContext context, FlightModel flight, int index) {
     Navigator.push(
       context,
       MaterialPageRoute(
         fullscreenDialog: false,
-        builder: (BuildContext context) => FlightDetails(
-          flight: flight,
-        ),
+        builder: (BuildContext context) =>
+            FlightDetails(flight: flight, index: index),
       ),
     );
   }
@@ -69,7 +68,8 @@ class _FlightStreamState extends State<FlightStream> {
             itemBuilder: (BuildContext _context, int index) {
               if (index < _snapshot.data.length) {
                 return GestureDetector(
-                  onTap: () => _goDetails(context, _snapshot.data[index]),
+                  onTap: () =>
+                      _goDetails(context, _snapshot.data[index], index),
                   child: FlightCell(
                     flight: _snapshot.data[index],
                     index: index,
