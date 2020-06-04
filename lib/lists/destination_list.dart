@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flight/lists/shared_lists.dart';
 import 'package:flight/models/destination_model.dart';
 import 'package:flight/services/services.dart';
 
@@ -32,6 +33,7 @@ class DestinationList {
       _isLoading = false;
       pageNum++;
       _data.addAll(postsData);
+      SharedLists.destinations.addAll(postsData);
       hasMore = (postsData.isNotEmpty);
       _controller.add(_data);
     });

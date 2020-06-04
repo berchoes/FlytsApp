@@ -10,7 +10,7 @@ class FlightCell extends StatelessWidget {
       : assert(flight != null),
         super(key: key);
 
-  List aircraftList = [
+  final List aircraftList = [
     "Boeing 777",
     "Airbus A320",
     "Boeing 767",

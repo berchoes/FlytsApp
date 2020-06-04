@@ -28,58 +28,89 @@ class _HomePageState extends State<HomePage> {
       case 3:
         return FlightsPage();
         break;
-
       default:
         return AircraftPage();
+    }
+  }
+
+  Future<bool> _onBackPressed() {
+    if (_currentIndex == 0) {
+      return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                backgroundColor: AppColors.primaryColor,
+                title: Text("Do you really want to quit?",
+                    style: GoogleFonts.overpass(color: Colors.white)),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("No",
+                        style: GoogleFonts.overpass(color: Colors.white)),
+                    onPressed: () => Navigator.pop(context, false),
+                  ),
+                  FlatButton(
+                    child: Text("Yes",
+                        style: GoogleFonts.overpass(color: Colors.white)),
+                    onPressed: () => Navigator.pop(context, true),
+                  )
+                ],
+              ));
+    } else {
+      setState(() {
+        _currentIndex--;
+      });
+      return Future.value();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        body: fragmentChanger(_currentIndex),
-        bottomNavigationBar: BottomNavigationBar(
-          unselectedItemColor: Colors.grey[200],
-          selectedItemColor: Colors.yellowAccent,
-          elevation: 10,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: AppColors.primaryColor,
-          currentIndex: _currentIndex,
-          onTap: (value) {
-            _currentIndex = value;
-            setState(() {});
-          },
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.airplanemode_active),
-                title: Text(
-                  "Airplanes",
-                  style: GoogleFonts.overpass(fontWeight: FontWeight.bold),
-                ),
-                backgroundColor: Colors.white),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.my_location),
-                title: Text(
-                  "Airlines",
-                  style: GoogleFonts.overpass(fontWeight: FontWeight.bold),
-                ),
-                backgroundColor: Colors.white),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.location_on),
-                title: Text(
-                  "Destinations",
-                  style: GoogleFonts.overpass(fontWeight: FontWeight.bold),
-                ),
-                backgroundColor: Colors.white),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.flight_takeoff),
-                title: Text(
-                  "Flights",
-                  style: GoogleFonts.overpass(fontWeight: FontWeight.bold),
-                ),
-                backgroundColor: Colors.white),
-          ],
+      child: WillPopScope(
+        onWillPop: _onBackPressed,
+        child: Scaffold(
+          body: fragmentChanger(_currentIndex),
+          bottomNavigationBar: BottomNavigationBar(
+            unselectedItemColor: Colors.grey[200],
+            selectedItemColor: Colors.yellowAccent,
+            elevation: 10,
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: AppColors.primaryColor,
+            currentIndex: _currentIndex,
+            onTap: (value) {
+              _currentIndex = value;
+              setState(() {});
+            },
+            items: [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.airplanemode_active),
+                  title: Text(
+                    "Airplanes",
+                    style: GoogleFonts.overpass(fontWeight: FontWeight.bold),
+                  ),
+                  backgroundColor: Colors.white),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.my_location),
+                  title: Text(
+                    "Airlines",
+                    style: GoogleFonts.overpass(fontWeight: FontWeight.bold),
+                  ),
+                  backgroundColor: Colors.white),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.location_on),
+                  title: Text(
+                    "Destinations",
+                    style: GoogleFonts.overpass(fontWeight: FontWeight.bold),
+                  ),
+                  backgroundColor: Colors.white),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.flight_takeoff),
+                  title: Text(
+                    "Flights",
+                    style: GoogleFonts.overpass(fontWeight: FontWeight.bold),
+                  ),
+                  backgroundColor: Colors.white),
+            ],
+          ),
         ),
       ),
     );

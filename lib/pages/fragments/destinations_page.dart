@@ -1,8 +1,7 @@
+import 'package:flight/lists/shared_lists.dart';
 import 'package:flight/models/destination_model.dart';
 import 'package:flight/streams/destination_stream.dart';
 import 'package:flight/style/theme.dart';
-
-import 'package:flight/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -47,6 +46,7 @@ class _DestinationsPageState extends State<DestinationsPage> {
                           },
                         ));
                   } else {
+                    SharedLists.destinations.clear();
                     this._customIcon = Icon(Icons.search);
                     this._customSearchBar = RichText(
                       text: TextSpan(
@@ -88,40 +88,39 @@ class _DestinationsPageState extends State<DestinationsPage> {
         ]),
   );
 
-  Widget _circularProgress() {
-    return Center(
-      child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation(Colors.yellowAccent),
-      ),
-    );
-  }
-
   Widget _widgetChoice(TextEditingController controller) {
     if (controller.text.isEmpty || _customIcon.icon == Icons.search) {
       controller.clear();
       return DestinationStream();
     } else
-      return searchDestinations(controller.text);
+      return searchDestinations(SharedLists.destinations, controller.text);
   }
 
-  Widget searchDestinations(String search) {
-    return FutureBuilder<List<Airport>>(
-      future: Services.getDestinations(0),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          print(snapshot.error);
-        } else if (snapshot.hasData) {
-          return listView(snapshot, _searchController.text);
-        }
-        return _circularProgress();
-      },
-    );
+  Widget searchDestinations(List<Airport> list, String search) {
+    if (list
+        .where((a) => (a.publicName.english
+                .toLowerCase()
+                .contains(search.toLowerCase()) ||
+            nullChecker(a.city).toLowerCase().contains(search.toLowerCase()) ||
+            nullChecker(a.country)
+                .toLowerCase()
+                .contains(search.toLowerCase())))
+        .toList()
+        .isEmpty)
+      return Center(
+          child: Text(
+        "No Result :(",
+        style: GoogleFonts.overpass(fontSize: 20, color: Colors.white),
+        textAlign: TextAlign.center,
+      ));
+    else
+      return listView(list, search);
   }
 
-  Widget listView(AsyncSnapshot<List<Airport>> snapshot, String search) {
+  Widget listView(List<Airport> list, String search) {
     return ListView(
       padding: EdgeInsets.all(8),
-      children: snapshot.data
+      children: list
           .where((a) => (a.publicName.english
                   .toLowerCase()
                   .contains(search.toLowerCase()) ||

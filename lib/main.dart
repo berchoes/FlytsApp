@@ -8,6 +8,6 @@ void main() => runApp(MaterialApp(
       initialRoute: "/",
       routes: {
         "/": (context) => SplashScreen(),
-        "/home": (context) => HomePage()
+        "/home": (context) => HomePage(),
       },
     ));

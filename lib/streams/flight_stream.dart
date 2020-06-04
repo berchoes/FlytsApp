@@ -1,9 +1,7 @@
 import 'package:flight/cells/flight_cell.dart';
-
 import 'package:flight/lists/flight_list.dart';
 import 'package:flight/models/flight_model.dart';
 import 'package:flight/pages/flight_details.dart';
-import 'package:flight/pages/fragments/flights_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
